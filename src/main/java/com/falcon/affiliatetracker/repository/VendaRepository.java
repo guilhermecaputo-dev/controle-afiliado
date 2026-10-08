@@ -1,5 +1,7 @@
 package com.falcon.affiliatetracker.repository;
 
+import com.falcon.affiliatetracker.dto.response.VendasPorPlataformaDTO;
+import com.falcon.affiliatetracker.dto.response.VendasPorProdutoDTO;
 import com.falcon.affiliatetracker.models.Venda;
 import com.falcon.affiliatetracker.models.enums.Plataforma;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -35,4 +37,12 @@ public interface VendaRepository extends JpaRepository<Venda, Long>{
 
     @Query("SELECT COALESCE(SUM(v.valorComissao), 0) FROM Venda v WHERE v.dataVenda BETWEEN :dataInicial AND :dataFinal")
     BigDecimal somarPorPeriodo(@Param("dataInicial") LocalDate dataInicial, @Param("dataFinal") LocalDate dataFinal);
+
+    @Query("SELECT new com.falcon.affiliatetracker.dto.response.VendasPorProdutoDTO(p.nome, COUNT(v), SUM(v.valorComissao)) "
+            + "FROM Venda v JOIN v.produto p GROUP BY p.id, p.nome ORDER BY SUM(v.valorComissao) DESC")
+    List<VendasPorProdutoDTO> vendasPorProduto();
+
+    @Query("SELECT new com.falcon.affiliatetracker.dto.response.VendasPorPlataformaDTO(v.origem, COUNT(v), COALESCE(SUM(v.valorComissao), 0)) "
+            + "FROM Venda v GROUP BY v.origem ORDER BY COALESCE(SUM(v.valorComissao), 0) DESC")
+    List<VendasPorPlataformaDTO> vendasPorPlataforma();
 }
