@@ -2,7 +2,6 @@ package com.falcon.affiliatetracker.service;
 
 import com.falcon.affiliatetracker.dto.request.ProdutoRequestDTO;
 import com.falcon.affiliatetracker.dto.response.ProdutoResponseDTO;
-import com.falcon.affiliatetracker.exception.BusinessException;
 import com.falcon.affiliatetracker.exception.ResourceNotFoundException;
 import com.falcon.affiliatetracker.models.Produto;
 import com.falcon.affiliatetracker.repository.ProdutoRepository;
