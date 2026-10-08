@@ -25,7 +25,7 @@ public interface CliqueRepository extends JpaRepository<Clique, Long> {
     @Query("SELECT new com.falcon.affiliatetracker.dto.response.MelhorDesempenhoConteudoDTO(cont.titulo, COUNT(c)) " +
             "FROM Clique c " +
             "JOIN c.linkAfiliado l " +
-            "JOIN l.conteudo cont " +
+            "JOIN l.conteudo count " +
             "GROUP BY count.id, cont.titulo " +
             "ORDER BY COUNT(c) DESC")
     List<MelhorDesempenhoConteudoDTO> listarDesempenho();
