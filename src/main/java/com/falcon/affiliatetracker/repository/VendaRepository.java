@@ -20,6 +20,8 @@ public interface VendaRepository extends JpaRepository<Venda, Long>{
 
     List<Venda> findByProdutoId(Long id);
 
+    Long countByDataVendaBetween(LocalDate dataIncial, LocalDate dataFinal);
+
     @Query("SELECT v FROM Venda v WHERE v.origem = :origem AND v.dataVenda BETWEEN :dataInicial AND :dataFinal ORDER BY v.dataVenda DESC")
     List<Venda> buscarVendas (@Param("origem") Plataforma origem, @Param("dataInicial") LocalDate dataInicial, @Param("dataFinal") LocalDate dataFinal);
 
@@ -45,4 +47,6 @@ public interface VendaRepository extends JpaRepository<Venda, Long>{
     @Query("SELECT new com.falcon.affiliatetracker.dto.response.VendasPorPlataformaDTO(v.origem, COUNT(v), COALESCE(SUM(v.valorComissao), 0)) "
             + "FROM Venda v GROUP BY v.origem ORDER BY COALESCE(SUM(v.valorComissao), 0) DESC")
     List<VendasPorPlataformaDTO> vendasPorPlataforma();
+
+
 }
